@@ -1,0 +1,32 @@
+# =========================
+# SECURITY (CRITICAL)
+# =========================
+# Never push your API keys, passwords, or tokens!
+.env
+.env.local
+config.json
+secrets.json
+
+# =========================
+# Python (If using Python)
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.venv/
+pip-log.txt
+
+# =========================
+# Node.js (If using JS/TS)
+# =========================
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# =========================
+# OS Generated Files
+# =========================
+.DS_Store
+Thumbs.db

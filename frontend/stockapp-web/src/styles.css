@@ -1,0 +1,245 @@
+:root {
+  --bg: #000000;
+  --bg-elevated: #111214;
+  --bg-card: #16171a;
+  --border: #26272b;
+  --text: #ffffff;
+  --text-dim: #8e8e93;
+  --green: #00c805;
+  --red: #ff5000;
+  --accent: #6e56cf;
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+}
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* --- Sidebar --- */
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--bg-elevated);
+  border-right: 1px solid var(--border);
+  padding: 20px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar .logo {
+  font-size: 20px;
+  font-weight: 700;
+  padding: 8px 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-item {
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: var(--text-dim);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+.nav-item.active { background: rgba(110,86,207,0.15); color: var(--accent); }
+
+/* --- Main content --- */
+.main {
+  flex: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+/* --- Portfolio hero --- */
+.portfolio-hero { margin-bottom: 32px; }
+.portfolio-hero .label { color: var(--text-dim); font-size: 14px; margin-bottom: 4px; }
+.portfolio-hero .value { font-size: 48px; font-weight: 700; letter-spacing: -1px; }
+.portfolio-hero .change { font-size: 16px; font-weight: 600; margin-top: 4px; }
+.change.positive { color: var(--green); }
+.change.negative { color: var(--red); }
+
+/* --- Cards --- */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.card h2 {
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+  margin: 0 0 16px;
+}
+
+/* --- Toggle switch --- */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0;
+}
+.toggle-row .toggle-label { font-size: 15px; font-weight: 500; }
+.toggle-row .toggle-sub { font-size: 13px; color: var(--text-dim); margin-top: 2px; }
+
+.switch {
+  position: relative;
+  width: 44px;
+  height: 26px;
+  flex-shrink: 0;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.switch .slider {
+  position: absolute; cursor: pointer; inset: 0;
+  background: #3a3a3c; border-radius: 999px; transition: 0.2s;
+}
+.switch .slider::before {
+  content: ""; position: absolute; height: 20px; width: 20px;
+  left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.2s;
+}
+.switch input:checked + .slider { background: var(--green); }
+.switch input:checked + .slider::before { transform: translateX(18px); }
+
+/* --- Forms --- */
+label { display: block; margin: 14px 0 6px; font-size: 13px; color: var(--text-dim); font-weight: 500; }
+input, select {
+  background: var(--bg-elevated);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  width: 100%;
+}
+input:focus, select:focus { outline: none; border-color: var(--accent); }
+
+button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: opacity 0.15s;
+}
+button:hover { opacity: 0.85; }
+button:disabled { opacity: 0.4; cursor: not-allowed; }
+button.secondary { background: var(--bg-elevated); border: 1px solid var(--border); }
+
+/* --- Signal / trade rows --- */
+.row-list { display: flex; flex-direction: column; gap: 8px; }
+.symbol-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: var(--bg-elevated);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.symbol-row .ticker { font-weight: 700; font-size: 15px; }
+.symbol-row .meta { font-size: 12px; color: var(--text-dim); margin-top: 2px; max-width: 480px; }
+.symbol-row .right { text-align: right; flex-shrink: 0; margin-left: 16px; }
+
+.pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.pill.buy { background: rgba(0,200,5,0.15); color: var(--green); }
+.pill.sell { background: rgba(255,80,0,0.15); color: var(--red); }
+.pill.hold { background: rgba(142,142,147,0.15); color: var(--text-dim); }
+
+.confidence-bar {
+  width: 60px; height: 4px; border-radius: 999px; background: var(--border);
+  margin-top: 6px; overflow: hidden;
+}
+.confidence-bar .fill { height: 100%; background: var(--accent); }
+
+.empty-state { color: var(--text-dim); font-size: 14px; padding: 20px 0; text-align: center; }
+
+.error-banner {
+  background: rgba(255,80,0,0.12);
+  border: 1px solid rgba(255,80,0,0.3);
+  color: #ff8a5c;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.spinner {
+  display: inline-block; width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.3); border-top-color: white;
+  border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 8px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* --- Layout with ticker --- */
+.main-column { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.main { flex: 1; max-width: 900px; margin: 0 auto; width: 100%; padding: 32px 24px 80px; }
+.page-title { font-size: 22px; font-weight: 700; margin: 0 0 20px; }
+
+.sidebar { display: flex; }
+.sidebar-user {
+  padding: 12px; border-top: 1px solid var(--border); margin-top: 12px;
+}
+.sidebar-user-name { font-weight: 600; font-size: 14px; }
+.sidebar-user-email { font-size: 12px; color: var(--text-dim); }
+
+/* --- Ticker bar (PSX-style scrolling strip) --- */
+.ticker-bar {
+  display: flex;
+  gap: 28px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 24px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.ticker-item { display: flex; align-items: baseline; gap: 8px; flex-shrink: 0; }
+.ticker-symbol { font-weight: 700; font-size: 13px; color: var(--text-dim); }
+.ticker-price { font-weight: 600; font-size: 14px; }
+
+/* --- Auth pages --- */
+.auth-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+.auth-card {
+  width: 380px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+}
+.auth-card h1 { font-size: 22px; margin: 0 0 20px; }
+.auth-switch { text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-dim); }
+.auth-switch a { color: var(--accent); text-decoration: none; font-weight: 600; }
