@@ -6,9 +6,13 @@ Three pieces:
    risk profiles, notifications, trade history, and Alpaca order execution.
 2. **`frontend/stockapp-web`** — React (Vite) frontend: risk questionnaire, watchlist
    analysis, notifications feed, trade history.
-3. **`agent/`** — Python FastAPI "brain": pulls news + fundamentals + momentum,
-   runs the Shariah compliance screen, and returns buy/sell/hold signals with
-   confidence scores, weighted by the user's risk appetite.
+3. **`agent/`** — Python FastAPI "brain": a LangGraph pipeline (`llm_graph.py`)
+   that runs a rule-based Shariah compliance gate first, then news sentiment
+   (VADER over NewsAPI headlines), fundamentals (FMP) and momentum (yfinance),
+   and asks a local LLM via Ollama (default `qwen2.5:7b`, JSON-constrained output)
+   to return a buy/sell/hold signal with a confidence score, weighted by the
+   user's risk appetite. Non-compliant stocks short-circuit to "hold" and never
+   reach the LLM.
 
 ## How it fits together
 
@@ -41,6 +45,8 @@ for each user's watchlist, or you can trigger it on demand from the UI
 ## Running it
 
 ### 1. Python agent
+Requires [Ollama](https://ollama.com) running locally with the model pulled
+(`ollama pull qwen2.5:7b`, or set `OLLAMA_MODEL` in `.env`).
 ```bash
 cd agent
 python -m venv venv && source venv/bin/activate   # Windows: venv\Scripts\activate
@@ -83,8 +89,13 @@ Open http://localhost:5173
 - The "sell" sizing logic in `TradeExecutionService.cs` is a placeholder
   (sells 1 share) — hook up Alpaca's `/v2/positions` endpoint to sell your
   actual held quantity before using this for real.
-- No authentication is wired up yet (single hardcoded `userId = 1` in the
-  frontend) — add real auth before deploying this anywhere multi-user.
-- I couldn't compile/test the C# project in this sandbox (no .NET SDK
-  installed here), so please run `dotnet build` yourself first thing to catch
-  any typos.
+- Auth is minimal: register/login with BCrypt-hashed passwords, but no JWT or
+  session tokens are issued, so the API trusts the `userId` in the URL — add
+  token-based auth before deploying this anywhere multi-user.
+
+## Status
+
+- `dotnet build` of `src/StockApp.Api` succeeds (0 warnings, 0 errors, checked 2026-11-21).
+- The Python agent and React frontend have not been run end-to-end in that check;
+  they need the API keys above and a running Ollama instance.
+- Defaults to the Alpaca paper-trading endpoint.
