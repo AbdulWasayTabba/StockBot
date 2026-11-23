@@ -62,7 +62,16 @@ cd src/StockApp.Api
 dotnet restore
 dotnet run
 ```
-Fill in your Alpaca keys in `appsettings.json` (`Alpaca:ApiKeyId` / `Alpaca:ApiSecretKey`).
+Store your Alpaca keys with .NET user-secrets (never commit them to `appsettings.json`):
+
+```bash
+cd src/StockApp.Api
+dotnet user-secrets init
+dotnet user-secrets set "Alpaca:ApiKeyId" "<your key id>"
+dotnet user-secrets set "Alpaca:ApiSecretKey" "<your secret>"
+```
+
+Or set the environment variables `Alpaca__ApiKeyId` and `Alpaca__ApiSecretKey`.
 Note the port it launches on (check `Properties/launchSettings.json` or console
 output) and update `BASE_URL` in `frontend/stockapp-web/src/api.js` to match.
 
